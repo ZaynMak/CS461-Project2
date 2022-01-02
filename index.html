@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>project 2</title>
+
+  <!-- latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <!-- load MathJax for typesetting equations in LaTeX -->
+  <script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+  <!-- load gl-matrix: all functions and modules will be available in the mat2, mat3, mat4, vec2, vec3, vec4 namespaces -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+
+  <script src='project2.js'></script>
+  <script src='physics.js'></script>
+</head>
+
+<body onload="run();">
+
+  <!-- wrapper -->
+  <div class="d-flex" id="wrapper">
+
+    <!-- page content -->
+    <div id="page-content-wrapper">
+
+      <!-- navigation bar -->
+      <nav class="navbar" style="background-color: #e3f2fd;">
+          <a class="navbar-brand" href="https://philipclaude.gitlab.io/cs461f21/index.html">
+          Middlebury College CSCI 461 - Computer Graphics</a>
+      </nav> <!-- navigation bar -->
+
+      <div class="container-fluid">
+        <h4>project 2</h4>
+        name: <i>Zayn Makdessi</i>
+
+        <br><br>
+        <center>
+          <button id='button-animate' onclick='toggleAnimation();'>animate</button>
+          <br>
+          <img id='flower' src='flower.jpg' hidden/> <!-- hidden so that it doesn't appear in the HTML document -->
+          <canvas width=600 height=600 id='canvas-cloth'></canvas>
+          <br>
+        </center>
+        <hr>
+
+      </div> <!-- container-fluid -->
+    </div> <!-- page-content-wrapper -->
+  </div> <!-- wrapper -->
+</body>
+
+<script>
+
+  // global variables for the timer and cloth animation objects
+  timer = undefined;
+  cloth = undefined;
+  
+  /**
+  * sets up the cloth animation object (cloth) and does an initial draw
+  * this function is called when the document loads
+  */
+  function run() {
+    // setup the cloth animation with n points in each direction
+    const n = 21;
+    cloth = new ClothAnimation('canvas-cloth',n,n,true);
+    cloth.draw(); // initial draw
+  }
+
+  /**
+  * turns on/off the animation when the 'animate' button is clicked
+  */
+  let animating = false;
+  function toggleAnimation() {
+    let button = document.getElementById('button-animate');
+    if (!animating) {
+      button.innerHTML = 'stop';
+      timer = setInterval(cloth.update.bind(cloth),35);
+      animating = true;
+    }
+    else {
+      button.innerHTML = 'animate';
+      animating = false;
+      clearInterval(timer);
+    }
+  }
+</script>
+
+</html>
